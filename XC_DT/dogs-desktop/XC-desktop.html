@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+ <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>DT Digital - Dogs PC</title>
+        <link rel="stylesheet" href="./build/css/styles.min.css">
+		<link rel="shortcut icon" href="http://dt.com.au/favicon.ico">
+		<!--[if lt IE 9]>
+			<script src="http://cdn.ractivejs.org/latest/ractive-legacy.js"></script>
+			<script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+			<script>
+				if( !window.getComputedStyle) { window.getComputedStyle = function(e) {return e.currentStyle}; }
+			</script>
+		<![endif]-->
+		
+		<script src='http://cdn.ractivejs.org/latest/ractive.js'></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	</head>
+	<body>	
+		<header id="header">
+			<script id="template" type="text/ractive">
+				<div id="top-bar">
+					<p class="container strong">{{header_dog_meet}}</p>
+				</div>			
+				<div class="container">
+				<div id="wrap-header" class="paddingtop-30">
+					<h1>{{title}}</h1>
+					<a href="#" class="btn btn-login clear-md strong fontsize13" onclick="">{{btn_login}}</a>
+					<a href="#" class="btn btn-signup clear-md strong fontsize13" onclick="">{{btn_signup}}</a>
+				</div>
+				</div>
+			</script>
+			<script>
+				var ractive = new Ractive({
+				  el: '#header',
+				  template: '#template',	
+				  data: { header_dog_meet: 'DOG MEET', title: 'Pawesome Pups', btn_login: 'Log in', btn_signup: 'Sign Up' }
+				});
+			</script>  
+		</header>
+		
+		<!-- show boxes all dogs --> 
+		<!-- 2 different layouts: vertical (case_1) and horizontal (case_2) --> 
+		<!-- 	2 types vertical layout: image/data (case_1a) and data/image (case_1b)  --> 
+		<!-- 	2 types horizontal layout: data/image(case_2a) and image/data(case_2b)  --> 
+		<div id="row-info-dogs" class="container spacer-lg">
+			<script id="template-dogs" type="text/ractive">
+				<section class="spacer-lg">
+				{{#infodogs:i}}
+					<!-- case_1 vertical layout: 1st & 4th column --> 
+					{{#if (i - (6*Math.floor(i/6)))%6 == 0 || ((i - (6*Math.floor(i/6)))-5)%6 == 0}}
+						<div class="col-{{i - (6*Math.floor(i/6))}} {{ (((infodogs.length-1)-i)<6 && i<= Math.floor(i/6)*i) ? 'clear-md':'' }}" data-row="{{ Math.floor(i/6) }}" data-last="{{ (infodogs.length-1) == i }}">
+							<article class="dog{{i}} wrapper-dog-v spacer-md" data-element="{{i}}" data-row="{{ Math.floor(i/6) }}">
+								{{! case_1a: apply vertical layout (image/data) }}
+								{{#if (i - (6*Math.floor(i/6)))%6 == 0}}						
+								<div class="content-dog-img">
+									<img src="images/{{path}}" alt="" />
+								</div>
+								{{/if}}
+								{{! show always, both generic }}
+								<div class="content-dog-info paddingtop-30">
+									<p class="fontsize13 strong fontsize13">{{name}}</p>
+									<p class="strong clear-md">{{age}}</p>
+									<a href="#" class="btn btn-dog strong fontsize13" onclick="">More</a>
+								</div>
+								{{! case_1b: apply vertical layout (data/image) }}
+								{{#if ((i - (6*Math.floor(i/6)))-5)%6 == 0}}
+								<div class="content-dog-img spacer-md">
+									<img src="images/{{path}}" alt="" />
+								</div>
+								{{/if}}
+							</article>
+						</div>
+					{{/if}}
+					<!-- case_2 horizontal layout: 2nd & 3rd column -->
+					{{#if (i - (6*Math.floor(i/6)))>= 1 && (i - (6*Math.floor(i/6)))<=4}}					
+						<div class="col-{{i - (6*Math.floor(i/6))}} item-{{i}} {{ (((infodogs.length-1)-i)<6 && i<= Math.floor(i/6)*i) ? 'clear-md':'' }}" data-row="{{ Math.floor(i/6) }}" data-last="{{ (infodogs.length-1) == i }}">
+							<article class="spacer-md wrapper-dog-h dog{{i}}" data-element="{{i}}" data-row="{{ Math.floor(i/6) }}">
+								{{! case_2a: apply horizontal layout (image/data) }}
+								{{#if (i - (6*Math.floor(i/6)))==1 || (i - (6*Math.floor(i/6)))==4}}
+								<div class="content-dog-img">
+									<img src="images/{{path}}" alt="" />
+								</div>
+								{{! show always, both generic }}
+								{{/if}}
+								<div class="content-dog-info spacer-lg">
+									<p class="fontsize13 strong">{{name}}</p>
+									<p class="strong clear-md">{{age}}</p>
+									<a href="#" class="btn btn-dog strong fontsize13" onclick="">More</a>
+								</div>
+								{{! case_2b: apply horizontal layout (data/image) }}
+								{{#if (i - (6*Math.floor(i/6))) == 2 || (i - (6*Math.floor(i/6)))==3}}
+								<div class="content-dog-img">
+									<img src="images/{{path}}" alt="" />
+								</div>
+								{{/if}}
+							</article>
+						</div>
+					{{/if}}	
+				{{/#infodogs}}
+				</section>
+			</script>
+			<script>
+				var objDogs = [
+					{ name: "Liloo", age: "3 Months old", path : "1.jpg"},
+					{ name: "Shelly", age: "2 Years old", path : "5.jpg"},
+					{ name: "Jasper", age: "1 Year old", path : "6.jpg"},
+					{ name: "Bilbo", age: "5 Weeks old", path : "4.jpg"},
+					{ name: "Scooty", age: "2 Years old",path : "2.jpg"},
+					{ name: "Rocket", age: "1 Year old", path : "3.jpg"},										
+				];
+				var ractivedogs = new Ractive({
+					el: "#row-info-dogs",
+					template: '#template-dogs',
+					data: { 
+						infodogs: objDogs
+					}
+				});	
+				
+				var currentDog = "";
+				var prevDog = "";
+				var colDog = "";				
+				//show properly all info dogs
+				$("section article").each(function(index) 
+				{
+					if ((parseInt($(this).attr("data-element")) % 2 == 0) && (parseInt($(this).attr("data-element")) % 6 != 0))
+					{
+						currentDog = ".dog"+index;
+						prevDog = ".dog"+(index-1);
+						colDog = ".item-"+index;
+						
+						$(currentDog).insertAfter(prevDog);
+						$(colDog).remove();
+					}					
+				});
+			</script> 
+		</div>			
+	</body>
+</html>

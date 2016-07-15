@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+ <html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>DT Digital - Dogs Mobile</title>
+        <link rel="stylesheet" href="./build/css/styles.min.css">
+		<script src='http://cdn.ractivejs.org/latest/ractive.js'></script>
+	</head>
+	<body>	
+		<div id="header">
+			<script id="template" type="text/ractive">
+				<div id="top-bar">
+					<p class="container strong">{{header_dog_meet}}</p>
+				</div>			
+				<div class="container">
+				<div id="wrap-header">
+					<h1>{{title}}</h1>
+					<form>
+						<a href="#" class="btn btn-login clear-min strong fontsize13" onclick="">{{btn_login}}</a>
+						<a href="#" class="btn btn-signup clear-md strong fontsize13" onclick="">{{btn_signup}}</a>
+					</form>
+				</div>
+				</div>
+			</script>
+			<script>
+				var ractive = new Ractive({
+				  el: '#header',
+				  template: '#template',	
+				  data: { header_dog_meet: 'DOG MEET', title: 'Pawesome Pups', btn_login: 'Log in', btn_signup: 'Sign Up' }
+				});
+			</script>  
+		</div>
+		
+		<!-- show boxes all dogs --> 
+		<!-- 2 types horizontal layouts: case_1 (image/data) and case_2 (data/image) --> 
+		<div id="row-info-dogs" class="container spacer-md">
+			<script id="template-dogs" type="text/ractive">
+				<ul class="catalogue-dogs">
+				{{#infodogs:i}}
+					<!-- case_1 horizontal layout: (image/data) even -->
+					{{#if (i % 2 == 0) }}
+						{{! <li> contains different classes to allow responsive design }}
+						<li class="col-xs-12 col-sm-6 col-md-4 clear-sm wrapper-dog-h dog{{i}} {{i%3==0 ? '':'col-md-offset-2'}}" data-element="{{i}}" data-row="{{ Math.floor(i/6) }}">
+							<div class="left content-dog-img">
+								<img src="images/{{path}}" alt="" />
+							</div>
+							<div class="right content-dog-info spacer-lg">
+								<p class="fontsize13 strong">{{name}}</p>
+								<p class="strong clear-md">{{age}}</p>
+								<a href="#" class="btn btn-dog spacer-md strong fontsize13" onclick="">More</a>
+							</div>
+						</li>						
+					{{/if}}
+					<!-- case_2 horizontal layout: (data/image) odd -->
+					{{#if (i % 2 != 0) }}
+						{{! <li> contains different classes to allow responsive design }}
+						<li class="col-xs-12 col-sm-6 col-md-4 col-xs-offset-0 col-sm-offset-1 clear-sm wrapper-dog-h dog{{i}} {{i%3==0 ? '':'col-md-offset-2'}}" data-element="{{i}}" data-row="{{ Math.floor(i/6) }}">
+							<div class="left content-dog-info spacer-lg">
+								<p class="fontsize13 strong">{{name}}</p>
+								<p class="strong clear-md">{{age}}</p>
+								<a href="#" class="btn btn-dog strong fontsize13" onclick="">More</a>
+							</div>
+							<div class="right content-dog-img">
+								<img src="images/{{path}}" alt="" />
+							</div>								
+						</li>						
+					{{/if}}	
+				{{/#infodogs}}
+				</ul>
+			</script>
+			<script>
+				var objDogs = [
+					{ name: "Liloo", age: "3 Months old", path : "1.jpg"},
+					{ name: "Shelly", age: "2 Years old", path : "5.jpg"},
+					{ name: "Jasper", age: "1 Year old", path : "6.jpg"},
+					{ name: "Bilbo", age: "5 Weeks old", path : "4.jpg"},
+					{ name: "Scooty", age: "2 Years old",path : "2.jpg"},
+					{ name: "Rocket", age: "1 Year old", path : "3.jpg"},					
+				];
+				var ractivedogs = new Ractive({
+					el: "#row-info-dogs",
+					template: '#template-dogs',
+					data: { 
+						infodogs: objDogs
+					}
+				});	
+			</script> 
+		</div>			
+	</body>
+</html>

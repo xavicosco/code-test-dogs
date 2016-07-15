@@ -1,0 +1,6 @@
+var dogs = { name: "Liloo", age: "3 Months old", path : "1.jpg"},
+{ name: "Shelly", age: "2 Years old", path : "5.jpg"},
+{ name: "Jasper", age: "1 Year old", path : "6.jpg"},
+{ name: "Bilbo", age: "5 Weeks old", path : "4.jpg"},
+{ name: "Scooty", age: "2 Years old",path : "2.jpg"},
+{ name: "Rocket", age: "1 Year old", path : "3.jpg"}
